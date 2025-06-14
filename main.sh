@@ -48,6 +48,7 @@ declare -r tarballs='/tmp/tarballs'
 declare -r tarball='/tmp/chunk.tar.xz'
 
 declare -r toolchain_directory='/tmp/obggcc'
+declare -r name="$(basename "${toolchain_directory}")"
 
 [ -d "${tarballs}" ] || mkdir "${tarballs}"
 [ -d "${toolchain_directory}" ] || mkdir "${toolchain_directory}"
@@ -86,7 +87,12 @@ for host in "${hosts[@]}"; do
 			
 			while read file; do
 				files+="${file} "
-			done <<< "$(find "$(basename "${toolchain_directory}")" -regex ".*${target}${glibc_version}[-/\.].*" | sort --unique)"
+			done <<< "$(find "${name}" -type 'f' -o -type 'l' -regex ".*${target}${glibc_version}[-/\.].*" | sort --unique)"
+			
+			if [ -z "${glibc_version}" ]; then
+				[ -d "${name}/lib" ] && files+="${name}/lib "
+				[ -d "${name}/lib64" ] && files+="${name}/lib64 "
+			fi
 			
 			declare destination="${tarballs}/${host}-${target}${glibc_version}.tar.xz"
 			
