@@ -57,6 +57,8 @@ cd "$(dirname "${toolchain_directory}")"
 for host in "${hosts[@]}"; do
 	url="${base_url}${host}.tar.xz"
 	
+	rm --recursive --force "${toolchain_directory}/"*
+	
 	echo "- Downloading from '${url}'"
 	
 	curl \
