@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  push:
+    branches:
+        - '**'
+
+jobs:
+  native-build:
+    name: 'Native build'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+      with:
+        submodules: true
+    - name: A
+      run: |
+        bash './main.sh'
+    - name: Upload artifact
+      uses: actions/upload-artifact@main
+      with:
+        name: native-toolchain
+        if-no-files-found: error
+        path: |
+          /tmp/tarballs/*
