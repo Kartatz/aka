@@ -50,6 +50,8 @@ declare -r tarball='/tmp/chunk.tar.xz'
 declare -r toolchain_directory='/tmp/obggcc'
 declare -r name="$(basename "${toolchain_directory}")"
 
+ulimit -s 65536
+
 [ -d "${tarballs}" ] || mkdir "${tarballs}"
 [ -d "${toolchain_directory}" ] || mkdir "${toolchain_directory}"
 
