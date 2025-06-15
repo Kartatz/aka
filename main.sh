@@ -100,11 +100,11 @@ for host in "${hosts[@]}"; do
 			
 			echo "- Saving to '${destination}'"
 			
-			tar \
+			tr ' ' '\n' <<< "${files}" | tar \
 				--directory="$(dirname "${toolchain_directory}")" \
 				--create \
 				--file=- \
-				${files} | \
+				--files-from='-' | \
 				xz \
 					--threads='0' \
 					--compress \
